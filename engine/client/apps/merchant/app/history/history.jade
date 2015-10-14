@@ -1,0 +1,30 @@
+template(name="basicHistory")
+  #content.modern
+    .dual-content
+      .dual-detail-wrapper
+        .dual-detail(style="margin-left: 0px; font-size: 12px;")
+          +historySynthesisDebts
+            //+Template.dynamic(template=basicHistoryDynamics.template data=basicHistoryDynamics.data)
+
+
+      //.dual-addon
+      //  .search-filter.icon-search-8
+      //    if isDisabled
+      //      input(name='searchFilter' type="text" disabled)
+      //    else
+      //      input(name='searchFilter' type="text")
+      //
+      //  .nano: .nano-content(style="margin-bottom: 35px;")
+      //    .group-wrapper
+      //      .caption.group Tổng Hợp Công Nợ
+      //      .caption.inner(class="{{isActive 'customerGroup'}}")
+      //        //a.avatar.letter.icon-print-6
+      //        span.text.uppercase.customerGroup <b>Theo Vùng</b>
+      //
+      //      .caption.inner(class="{{isActive 'customer'}}")
+      //        a.avatar.letter.icon-print-6
+      //        span.text.uppercase.customer <b>Theo Khách Hàng</b>
+
+             //.caption.inner.revenueBasicArea(class="{{isActive 'revenueBasicArea'}}")
+             //   span.avatar.letter(class="{{icon}}")
+             //   span.text.uppercase <b>Tổng Hợp Doanh Số</b>

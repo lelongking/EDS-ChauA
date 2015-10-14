@@ -1,0 +1,11 @@
+template(name="messageNotifications")
+  .dropdown-menu(role="menu")
+    .header-caption TIN NHẮN
+    ul.details
+      each topMessages
+        li.message(class="{{hasRead}}")
+          +avatarImageComponent(avatar=notificationSenderAvatar alias=notificationSenderAlias)
+          .content
+            h5 {{notificationSenderName}}
+            p.text {{message}}
+            p.timestamp {{momentFromNow version.createdAt}}

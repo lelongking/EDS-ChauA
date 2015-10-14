@@ -1,0 +1,47 @@
+template(name="import")
+  #content.modern
+    .dual-content
+      .dual-detail-wrapper
+        .dual-detail
+          .nano: .nano-content
+            +importDetailSection currentImport
+
+      .dual-addon
+        .search-filter.icon-search-8
+          input(name='searchFilter' type="text" placeholder="tìm sản phẩm...")
+
+        .nano: .nano-content(style="margin-bottom: 35px;")
+          .list
+            each unitProductSearches
+              .doc-item.product-selection(class="{{productSelectionActiveClass}}")
+                .avatar-wrapper: .avatar-image(class="missing"
+                style="background-image:url('')") {{aliasLetter name}}
+                .doc-info
+                  .title {{name}}
+                  unless inventoryInitial
+                    .sub-title(data-toggle="tooltip" data-container="body" data-placement="right"
+                    title="Quay về ô sản phẩm, nhập kho đầu kỳ.") chưa tồn kho đầu kỳ
+                  .time-stamp.icon-angle-right.addImportDetail
+                  .price-stamp.icon-ticket {{unitName}}
+
+
+  #footer.modern
+    .editor-row
+      .editor-wrapper.dual-spacer
+      .editor-wrapper(style="width:180px")
+        span.ilabel.optional công ty cung cấp
+        +iSelect(options=providerSelectOptions class="field")
+      .editor-wrapper(style="width: 160px;")
+        span.ilabel.center chiết khấu
+        +iSpinEdit(options=discountOptions)
+      .editor-wrapper(style="width: 160px;")
+        span.ilabel.center thanh toán
+        +iSpinEdit(options=depositOptions)
+
+
+      .editor-wrapper.right
+        button.flat.btn.lime.icon-award.importSubmit(type='submit') HOÀN TẤT
+      .editor-wrapper.right
+        button.flat.btn.blue.print-command(type='submit'): span.icon-print-6
+
+    +tabComponent(options=tabOptions)

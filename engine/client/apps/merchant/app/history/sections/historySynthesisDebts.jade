@@ -1,0 +1,170 @@
+template(name="historySynthesisDebts")
+  table.lemon-grid(style='font-size: 12px; margin-top: 22px;background-color: #fff; height: 32px;')
+    tr
+      th(style='width:auto')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:90px')
+      th.number(style='width:110px; padding-right: 10px;')
+
+    tr
+      td(style="padding-left: 0px;")
+        .search-filter.icon-search-8
+          if isDisabled
+            input(style="height: 34px;" name='searchFilter' type="text" disabled )
+          else
+            input(style="height: 34px; background-color: #f5f5f5" name='searchFilter' type="text")
+      td(colspan="5")
+        .btn-group(data-toggle='buttons')
+          label.customerGroup.btn.btn-primary.active
+            input.customerGroup(type='radio', name='options', autocomplete='off', checked='')
+            |Theo Vùng
+          label.customer.btn.btn-primary
+            input.customer(type='radio', name='options', autocomplete='off')
+            |Theo Khách Hàng
+        unless isDisabled
+          .btn-group: a.icon-print-6(style="font-size: 24px;")
+
+
+
+    tr(style='font-size: 13px; font-weight: bold; height: 30px;')
+      td(style='padding-left: 10px;') Tên Khách Hàng
+      td.number Nợ Phải Thu
+      td.number TT.Phải Thu
+      td.number Nợ Đầu Kỳ
+      td.number TT.Nợ ĐK
+      td.number PS.Cộng
+      td.number PS.Trừ
+      td.number Mua Hàng
+      td.number Trả Hàng
+      td.number D.Số Thực
+      td.number TT.Mua Hàng
+      td.number Nợ Cuối Kỳ
+
+
+  .nano: .nano-content(style="right: -3px;padding-bottom: 75px;")
+    .section.panel.panel-default.printable-area(style="margin-top: 0;")
+      .panel-body(style="padding: 0px;")
+        table#historyTable.lemon-grid
+          tr
+            th(style="width:auto")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:90px")
+            th(style="width:110px")
+
+
+          with customerGroups
+            if showCustomer
+              if hasSearchCustomer
+                each customerLists
+                  tr(style="background-color: #fff;")
+                    td.first-column(style="font-size: 13px;") {{name}}
+                    td.number
+                      input.number.debtRequiredCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                      value="{{formatNumber debtRequiredCash}}")
+                    td.number {{formatNumber paidRequiredCash}}
+
+                    td.number
+                      input.number.debtBeginCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                      value="{{formatNumber debtBeginCash}}")
+                    td.number {{formatNumber paidBeginCash}}
+
+                    td.number {{formatNumber debtIncurredCash}}
+                    td.number {{formatNumber paidIncurredCash}}
+
+                    td.number {{formatNumber debtSaleCash}}
+                    td.number {{formatNumber returnSaleCash}}
+
+                    td.number {{formatNumber turnoverSaleCash}}
+                    td.number {{formatNumber paidSaleCash}}
+                    td.number {{formatNumber totalCash}}
+              else
+                each this
+                  each customerDetails
+                    tr(style="background-color: #fff;")
+                      td.first-column(style="font-size: 13px;") {{name}}
+                      td.number
+                        input.number.debtRequiredCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                        value="{{formatNumber debtRequiredCash}}")
+                      td.number {{formatNumber paidRequiredCash}}
+
+                      td.number
+                        input.number.debtBeginCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                        value="{{formatNumber debtBeginCash}}")
+                      td.number {{formatNumber paidBeginCash}}
+
+                      td.number {{formatNumber debtIncurredCash}}
+                      td.number {{formatNumber paidIncurredCash}}
+
+                      td.number {{formatNumber debtSaleCash}}
+                      td.number {{formatNumber returnSaleCash}}
+
+                      td.number {{formatNumber turnoverSaleCash}}
+                      td.number {{formatNumber paidSaleCash}}
+                      td.number {{formatNumber totalCash}}
+
+                  tr(style="background-color: #f0f0f0; color: #787878;")
+                    +basicHistorySumGroupCash
+
+                  +basicHistorySumAllCash
+
+            else
+              each this
+                tr(style="color: #787878;")
+                  +basicHistorySumGroupCash
+
+              with sumCash
+                +basicHistorySumAllCash
+
+
+template(name="basicHistorySumGroupCash")
+  td(style="font-size: 13px;") <b>{{name}} : </b>
+  td.number <b>{{formatNumber  debtRequiredCash}}</b>
+  td.number <b>{{formatNumber  paidRequiredCash}}</b>
+
+  td.number <b>{{formatNumber  debtBeginCash}}</b>
+  td.number <b>{{formatNumber  paidBeginCash}}</b>
+
+  td.number <b>{{formatNumber  debtIncurredCash}}</b>
+  td.number <b>{{formatNumber  paidIncurredCash}}</b>
+
+  td.number <b>{{formatNumber  debtSaleCash}}</b>
+  td.number <b>{{formatNumber  returnSaleCash}}</b>
+
+  td.number <b>{{formatNumber  turnoverSaleCash}}</b>
+  td.number <b>{{formatNumber  paidSaleCash}}</b>
+  td.number <b>{{formatNumber  totalCash}}</b>
+
+template(name="basicHistorySumAllCash")
+  tr
+    td(style="font-size: 13px;")  <b>Tổng Cộng :</b>
+    td.number.border-top <b>{{formatNumber sumDebtRequiredCash}}</b>
+    td.number.border-top <b>{{formatNumber sumPaidRequiredCash}}</b>
+
+    td.number.border-top <b>{{formatNumber sumDebtBeginCash}}</b>
+    td.number.border-top <b>{{formatNumber sumPaidBeginCash}}</b>
+
+    td.number.border-top <b>{{formatNumber sumDebtIncurredCash}}</b>
+    td.number.border-top <b>{{formatNumber sumPaidIncurredCash}}</b>
+
+    td.number.border-top <b>{{formatNumber sumDebtSaleCash}}</b>
+    td.number.border-top <b>{{formatNumber sumReturnSaleCash}}</b>
+
+    td.number.border-top <b>{{formatNumber sumTurnoverCash}}</b>
+    td.number.border-top <b>{{formatNumber sumPaidSaleCash}}</b>
+    td.number.border-top <b>{{formatNumber sumTotalCash}}</b>

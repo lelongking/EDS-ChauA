@@ -1,0 +1,37 @@
+template(name="staffManagementOverviewSection")
+  .section.top.panel.panel-default
+    input.hidden.avatarFile(type="file")
+    .panel-heading
+      +avatarImageComponent(avatar=avatarUrl alias=fullName)
+      .caption
+        input.editable.dashed(name="staffName" value="{{fullName}}" maxlength="50")
+        span.blured-color ({{genderName}})
+      .sub1: span.editable Tài Khoản: {{userName}}
+      .sub2: span.editable Doanh Số: 0 VND
+      .commands
+        if getSession 'staffManagementShowEditCommand'
+          .lemon.btn.rounded.lime.icon-ok-6.syncStaffEdit
+        if allowDelete
+          .lemon.btn.rounded.red.icon-minus-4.staffDelete
+
+    .panel-footer.has-details
+      .editor-row
+        .editor-wrapper(style="width: 90px")
+          span.ilabel.optional giới tính
+          +iSelect(options=genderSelectOptions class="field genderSelect")
+
+        .editor-wrapper(style="width: 150px")
+          span.ilabel.optional phân quyền
+          +iSelect(options=roleSelectOptions class="field roleSelect")
+
+        unless getSession 'showCustomerListNotOfStaff'
+          .editor-wrapper(style="width: 200px")
+            span.ilabel.optional chuyển khách hàng
+            +iSelect(options=customerGroupSelects class="field changeCustomer")
+
+
+
+        if getSession 'showCustomerListNotOfStaff'
+          .editor-wrapper.pull-right
+            button.flat.btn.lime.pull-right.addCustomerToStaff(
+            type='submit' style="margin-right: 5px;" class="{{getSession 'addCustomerToStaffIsDisabled'}}") THÊM

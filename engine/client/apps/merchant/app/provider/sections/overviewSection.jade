@@ -1,0 +1,28 @@
+template(name="providerManagementOverviewSection")
+  .section.top.panel.panel-default
+    input.hidden.avatarFile(type="file")
+    .panel-heading
+      +avatarImageComponent(avatar=avatarUrl alias=name)
+      .caption
+        input.editable.dashed(name="providerName" value="{{name}}" maxlength="50"
+        data-toggle="tooltip" data-container="body" data-placement="right" title="tên nhà cung cấp")
+        //if description
+        //  span.blured-color ({{description}})
+      .sub1: input.editable.dashed(name="providerPhone" value="{{phone}}" maxlength="50" size="10" placeholder="điện thoại"
+      data-toggle="tooltip" data-container="body" data-placement="right" title="số điện thoại")
+      .sub2: input.editable.dashed(name="providerAddress" value="{{address}}" maxlength="100" size="30" placeholder="địa chỉ"
+      data-toggle="tooltip" data-container="body" data-placement="right" title="địa chỉ")
+      .commands
+        if showEditCommand
+          .lemon.btn.rounded.lime.icon-ok-6.syncProviderEdit
+        if showDeleteCommand
+          .lemon.btn.rounded.red.icon-minus-4.providerDelete
+
+    .panel-footer
+      .region
+        .title.providerDetail
+          if getSession 'providerManagementIsShowProviderDetail'
+            span.s5.note.icon-angle-right <b>Thu gọn</b>
+            textarea.editDescription(name="editDescription" maxlength="2000" style="border:none; width:100%; resize:none; padding-left:20px; outline: none !important; height: 85px;") {{description}}
+          else
+            span.s5.note.icon-angle-right <b>Thông tin chi tiết</b>

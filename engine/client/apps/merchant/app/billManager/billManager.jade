@@ -1,0 +1,30 @@
+template(name="billManager")
+  #content.modern.sales-app
+    .dual-content
+      .dual-detail-wrapper
+        .dual-detail
+          .nano: .nano-content
+            .segments-container.size2
+              +gridComponent(options=waitingGridOptions wrapperClass="segments-column" headerTemplate="billThumbnailHeader1" animation="bounceInDown")
+              +gridComponent(options=deliveringGridOptions wrapperClass="segments-column" headerTemplate="billThumbnailHeader2" animation="bounceInDown")
+
+      .dual-addon
+        .search-filter.icon-search-8
+          input(name='searchFilter' type="text")
+
+        .nano: .nano-content(style="margin-bottom: 35px;"): .group-wrapper
+          each allBills
+            .caption.inner.advanced.product-selection
+              +avatarImageComponent(avatar=avatarUrl alias=buyerName)
+              span.text {{buyerName}}
+                //.commands: span.icon-right-open-big.addSaleDetail
+              span.left-info(style="text-transform: none; max-width: 140px") {{getSellerName seller}}
+              span.right-info {{momentFormat version.createdAt 'DD/MM/YYYY'}}
+
+
+template(name="billThumbnailHeader1")
+  div(style="background-color: #fff; margin-bottom: 5px; margin-right: 3px; border-radius: 3px; color: #2980b9; font-size: 16px; padding-top: 3px; padding-bottom: 5px;")
+    span.icon-truck-1 Trong 7 ngày
+template(name="billThumbnailHeader2")
+  div(style="background-color: #fff; margin-bottom: 5px; margin-right: 4px; border-radius: 3px; color: #d35400; font-size: 16px; padding-top: 3px; padding-bottom: 5px; padding-right: 10px; text-align: right")
+    span.icon-award Quá 7 ngày

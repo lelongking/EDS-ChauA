@@ -1,0 +1,76 @@
+template(name="importDetailSection")
+   .section.top.panel.panel-default.printable-area
+      .panel-heading
+         .hide-on-print
+            span <b>{{timeHM}}<sup>{{timeS}}</sup></b>, ngày <b>{{timeDMY}}</b> <b>{{fullDay}}</b><br/>
+         .show-on-print
+            +merchantPrintingHeader
+            .bill-info
+               .seller-info Nhân viên: {{sellerName}}
+               .bill-no {{billNo}}
+            .printing-info
+               .document-name
+                  span.s4 PHIẾU NHẬP KHO <br />
+                  span.uppercase {{provider.name}}
+               .document-info
+                  .right-info
+                     if provider.phone
+                        span {{provider.phone}}
+                        span.icon-phone-circled <br/>
+                     if provider.address
+                        span {{provider.address}}
+                        span.icon-location-outline
+
+      .panel-body
+         table.lemon-grid
+            tr.table-header
+               th(style="width:auto") SẢN PHẨM
+               th(style="width:90px; text-align:center") HẾT HẠN
+               th.number(style="width:50px") SL
+               th(style="width:90px; text-align:center") ĐƠN VỊ
+               th.number(style="width:90px") ĐƠN GIÁ
+               th.number(style="width:120px") THÀNH TIỀN
+
+            each details
+               if isRowEditing
+                  +importRowEdit
+               else
+                  +importRowDisplay
+
+
+            tr.top-dashed.space
+               td(colspan="6" style="height: 25px")
+                  input.editable.dashed.note(name='importDescription' value="{{profiles.description}}" placeholder="ghi chú đơn hàng" size="40" maxlength="120")
+            tr
+               td(align="center"): span NGƯỜI GIAO
+               td
+               td.number(colspan="2"): span.s5 TỔNG CỘNG:
+               td.number(colspan="2"): span.s4 <b>{{formatNumber totalPrice}}</b> VNĐ
+            tr
+               td
+               td
+               td.number(colspan="2"): span.s5 CHIẾT KHẤU:
+               td.number(colspan="2"): span.s4 <b>{{formatNumber discountCash}}</b> VNĐ
+            tr
+               td
+               td
+               td.number(colspan="2"): span.s5 TIỀN CŨ:
+               td.number(colspan="2"): span.s4 <b>{{formatNumber oldDebt}}</b> VNĐ
+            tr
+               td(align="center"): span.s6.note (<i>Chữ ký và Họ Tên</i>)
+               td
+               td.number(colspan="2"): span.s5 THANH TOÁN:
+               td.number(colspan="2"): span.s4 <b>{{formatNumber depositCash}}</b> VNĐ
+            tr
+               td(colspan="2")
+               td
+               td
+               td.number(colspan="2" style="border-top: solid 1px #d7d7d7")
+                  span.s4 <b>{{formatNumber finalDebt}}</b> VNĐ
+
+      .panel-footer.show-on-print
+         .grea-print-message
+            .rounded-gera-logo: .rounded-wrapper
+               img(src="/images/white-pixel.jpg")
+               img.rounded-img(src="/images/gera-small.png")
+            i In từ hệ thống EDS - công ty Công Nghệ Thiên Ban (0838 111 766) - Hạn nợ {{dueDate}} ({{dueDay}} ngày)

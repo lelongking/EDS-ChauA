@@ -1,0 +1,96 @@
+template(name="overviewProductUnit")
+  .detail-wrapper
+    with currentProduct
+      form.form-inline: .form-group: .input-group
+        input.hide
+        .input-group-addon Mã sản phẩm:
+        .input-group-addon(style="width: 150px")
+          if isManager
+            input.editable.dashed(name="productCode" data-toggle="tooltip" data-container="body" data-placement="right"
+            placeholder="mã sản phẩm" title="Mã Sản Phẩm" value="{{code}}")
+          else
+            |{{code}}
+
+  .detail-wrapper
+    span.icon-ok-6(class="{{allowCreateUnit}}")
+    span Thêm đơn vị tính cho {{name}}
+
+    each currentProduct.units
+      unless isBase
+        +productUnitDetail this
+
+    if isManager
+      if isNotLimitUnit
+        +productUnitCreateUnit this
+
+  .detail-wrapper
+    .productUnit-table-group.row
+      each productUnitTables
+        .col.col-sm-4.col-md-3.col-lg-2
+          .package-block
+            .title(style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis") {{name}}
+            .features(class="{{class}}")
+              if isProduct
+                li: span {{barcode}} :
+                li: span {{saleQuantity}} :
+                li: span {{importPrice}} :
+              else
+                +productUnitTableDetail this
+
+template(name="productUnitTableDetail")
+  li: span {{barcode}}
+  li: span {{formatNumber saleQuantity}} VNĐ
+  if isEditImportPrice
+    if isBase
+      li(style="padding-top: 4px; padding-bottom: 2px;")
+        input.form-control.editable.dashed(name="editImportQuantity" value="{{formatNumber importPrice}} VNĐ")
+    else
+      li: span {{formatNumber importPrice}} VNĐ
+  else
+    li: span {{formatNumber importPrice}} VNĐ
+
+
+template(name="productUnitDetail")
+  if isManager
+    form.form-inline: .form-group
+      .input-group
+        input.form-control.editable.dashed(data-toggle="tooltip" data-container="body" data-placement="right"
+        placeholder="tên đơn vị tính" title="Tên đơn vị tính" value="{{name}}" name="productUnitName")
+
+        .input-group-addon(data-toggle="tooltip" data-container="body" data-placement="right" title="Quy cách") =
+
+        if allowDelete
+          input.form-control.editable.dashed(data-toggle="tooltip" data-container="body" data-placement="right"
+          placeholder="tên đơn vị tính" title="Quy cánh" value="{{conversion}}" name="productUnitConversion")
+        else
+          .input-group-addon(style="width: 207px") {{conversion}}
+
+        .input-group-addon {{currentProduct.unitName}}
+
+      if allowDelete
+        .lemon.rounded.btn.blue.icon-minus-4.deleteProductUnit
+
+  else
+    form.form-inline: .form-group
+      .input-group
+        .input-group-addon.editable.dashed(style="width: 214px") {{name}}
+        .input-group-addon =
+        .input-group-addon.editable.dashed(style="width: 214px") {{conversion}}
+        .input-group-addon {{currentProduct.unitName}}
+
+
+
+template(name="productUnitCreateUnit")
+  form.form-inline: .form-group
+    .input-group
+      input.form-control.editable.dashed(data-toggle="tooltip" data-container="body" data-placement="right"
+      placeholder="tên đơn vị tính mới" title="Tên đơn vị tính mới" name="unitName")
+
+      .input-group-addon(data-toggle="tooltip" data-container="body" data-placement="right" title="Quy cách") =
+
+      input.form-control.editable.dashed(data-toggle="tooltip" data-container="body" data-placement="right"
+      placeholder="số lượng quy đổi" title="Quy đổi" name="unitConversion")
+
+      .input-group-addon {{currentProduct.unitName}}
+
+    .lemon.rounded.btn.blue.icon-plus-6.addProductUnit

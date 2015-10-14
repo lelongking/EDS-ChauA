@@ -1,0 +1,101 @@
+template(name="productManagementSalesHistorySection")
+  .section.panel.panel-default.printable-area
+    .panel-heading
+      .show-on-print
+        +merchantPrintingHeader
+        .printing-info
+          .document-name {{name}}
+
+      table.lemon-grid.safe
+        tr
+          th(style="width:auto") ĐỐI TÁC
+          th.date(style="width:100px") HOẠT ĐỘNG
+          th.date(style="width:80px") SỐ PHIẾU
+          th.number(style="width:50px") SL
+          th.date(style="width:80px") ĐƠN VỊ
+          th.number(style="width:80px") GIÁ
+
+
+    .panel-body.debt-details
+      table.lemon-grid.safe
+        tr
+          th(style="width:auto")
+          th.date(style="width:100px")
+          th.date(style="width:80px")
+          th.number(style="width:50px")
+          th.date(style="width:80px")
+          th.number(style="width:90px")
+
+
+        each allSaleDetails
+          tr.header-row
+            td.has-commands(colspan="7")
+              | &nbsp;
+              .bill-header <b>{{createdAt}}</b>
+          tr
+
+          each details
+            tr.detail-row
+              td.first-column.has-commands {{ownerName}}
+              td.date {{activity}}
+              td.date {{billNo}}
+              td.number {{quality}}
+              td.date {{getProductUnitName productUnit}}
+              td.number {{formatNumber price}}
+
+
+
+          //each data
+          //  if isImport
+          //    each details
+          //      if isProduct
+          //        tr.detail-row
+          //          td.first-column.has-commands
+          //            if isInventory
+          //              | Tồn kho đầu kỳ
+          //            else
+          //              |NCC {{providerName}}
+          //            .commands Hết Hạn
+          //          td.date {{momentFormat expire "DD/MM/YYYY"}}
+          //          td.number {{formatNumber quality}}
+          //          td.date {{getProductUnitName productUnit}}
+          //          td.number {{formatNumber price}}
+          //          td.number {{note}}
+          //
+          //  if isOrder
+          //    each details
+          //      if isProduct
+          //        //tr.detail-row
+          //        //  td.first-column.has-commands
+          //        //    span.icon-forward-3 {{getBuyerName buyer}}
+          //        //    .commands Ngày Bán
+          //        //  td.date {{momentFormat createdAt "DD/MM/YYYY"}}
+          //        //  td.number {{quality}}
+          //        //  td.date {{getProductUnitName productUnit}}
+          //        //  td.number {{formatNumber price}}
+          //        //  td.number {{note}}
+          //        each import
+          //          tr.detail-row
+          //            td.first-column.has-commands
+          //              span.icon-forward-3 {{getBuyerName buyer}}
+          //              .commands Ngày Bán
+          //            td.date {{momentFormat createdAt "DD/MM/YYYY"}}
+          //            td.number {{quality}}
+          //            td.date {{getProductUnitName productUnit}}
+          //            td.number {{formatNumber price}}
+          //            td.number {{note}}
+
+
+
+    .panel-footer
+      unless inventoryInitial
+        .right-float
+          span.s5.note <b>TỔNG BÁN</b>/ ĐẶT HÀNG:
+          span.s3 <b>{{formatNumber saleQuantity}}</b>
+          span.s5 /{{formatNumber inOderQuantity}} <b>{{unitName}}</b>
+
+      else
+        .right-float
+          span.s5.note <b>TỔNG TỒN</b>/ TỔNG NHẬP:
+          span.s3 <b>{{formatNumber inStockQuantity}}</b>
+          span.s5 /{{formatNumber importQuantity}} <b>{{unitName}}</b>

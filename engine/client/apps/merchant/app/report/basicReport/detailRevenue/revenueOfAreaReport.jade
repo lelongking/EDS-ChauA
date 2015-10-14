@@ -1,0 +1,10 @@
+template(name="revenueOfAreaReport")
+  .section.top.panel.panel-default.printable-area
+    .editor-row
+      .editor-wrapper(style="width: 200px")
+        span.ilabel.optional khu vực
+        +iSelect(options=areaSelectOptions class="field")
+
+    .panel-body
+      //svg#revenueOfAreaReport.mypiechart(style="display: block; float: left; height: 600px !important; width: 600px !important;")
+      #revenueOfAreaReport

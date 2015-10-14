@@ -1,0 +1,8 @@
+template(name="avatarImageComponent")
+  if avatar
+    span.avatar.image: img(src="{{avatar}}")
+  else
+    if name
+      span.avatar.letter(style="{{isColor color}}") {{firstName name}}
+    else
+      span.avatar.letter(style="{{isColor color}}") {{aliasLetter alias}}

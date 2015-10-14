@@ -1,0 +1,38 @@
+template(name="customerOfStaffSection")
+  .section.panel.panel-default.printable-area
+    .panel-heading
+      .show-on-print
+        +merchantPrintingHeader
+        .printing-info
+          .document-name {{name}}
+
+      table.lemon-grid: tr
+        th(style="width:20px")
+        //th(style="width:100px") Khu Vực
+        th(style="width:auto") Tên Khách Hàng
+        th.date(style="width:100px") Số Phiếu Chờ
+        th.number(style="width:150px") Công Nợ
+
+    .panel-body.debt-details
+      table.lemon-grid(style="cursor: pointer;")
+        tr
+          th.hide-on-print(style="width:30px")
+          //th(style="width:100px")
+          th(style="width:auto")
+          th(style="width:100px")
+          th(style="width:160px")
+
+        each customerLists
+          tr.detail-row(class="{{selected}}")
+            td.command.icon-ok-6.hide-on-print
+            td {{name}}
+            if orderWaitingCount
+              td.date.toBillManager {{orderWaitingCount}} phiếu chờ
+            else
+              td.number
+            td.number {{formatNumber totalDebtCash}} VND
+
+    .panel-footer
+      .right-float
+        span.s5 TỔNG NỢ:
+        span.s4 <b>{{formatNumber debtTotalCash}}</b> VND

@@ -1,0 +1,70 @@
+template(name="customerManagementSaleDetails")
+  tr.header-row
+    td.has-commands(colspan="5" style="border-left: solid 2px #f39c12")
+      | &nbsp;
+      .bill-header(style="background-color: #f39c12;") <b>{{momentFormat successDate "DD/MM/YYYY"}}</b>
+      .bill-header.billNo.hide-on-print(style="left: 90px")  <b><i>{{billNo}}</i></b>
+      .bill-header.billNo.show-on-print(style="left: 120px") <b><i>{{billNo}}</i></b>
+      //.commands
+      //  if showDeleteSales
+      //    .lemon.rounded.tiny.btn.red.deleteSales: span.icon-minus-4
+  tr
+
+  each details
+    with detail
+      tr.detail-row
+        td.first-column {{productName}}
+        td {{quality}}
+        td: span
+          | {{productUnitName}}
+          unless isBase
+            span.super.s7.color-lime {{formatNumber basicQuantity}} {{basicUnitName}}
+        td.number {{formatNumber price}}
+        td.last-column.number {{formatNumber totalPrice}}
+
+
+  //if discountCash
+  //  tr.detail-row
+  //    td.number(colspan="4"): span Tổng phiếu :
+  //    td.number.receive.border-top: span.s5 <b>{{formatNumber totalPrice}}</b>
+  //
+  //  tr.detail-row
+  //    td.number(colspan="4"): span Chiết khấu :
+  //    td.number.paid: span.s5 <b>{{formatNumber discountCash}}</b>
+  //
+  //  if depositCash
+  //    tr.detail-row
+  //      td.number(colspan="4"): span Thanh toán :
+  //      td.number.paid: span.s5 <b>{{formatNumber depositCash}}</b>
+  //
+  //
+  //else
+  //  if depositCash
+  //    tr.detail-row
+  //      td.number(colspan="4"): span Tổng phiếu :
+  //      td.number.receive.border-top: span.s5 <b>{{formatNumber totalPrice}}</b>
+  //
+  //    tr.detail-row
+  //      td.number(colspan="4"): span Thanh toán :
+  //      td.number.paid: span.s5 <b>{{formatNumber depositCash}}</b>
+
+
+
+  each transactions
+    tr.paid-row.top(class="{{transactionClass}}" style="border-bottom: none;")
+      td.has-commands(colspan="3")
+        span {{description}}
+        if isManager
+          if allowDelete
+            .commands: .lemon.rounded.tiny.btn.red.deleteTransaction: span.icon-minus-4
+      td.number(style="color: #666;")
+        if hasDebitBegin
+          span.icon-feather-1.s5 <b>{{formatNumber sumBeforeBalance}}</b>
+      td.number: span.s5 <b>{{formatNumber balanceChange}}</b>
+
+    tr.detail-row
+      td.number(colspan="3")
+      td.number.border-top
+      td.number.border-top: span.s5 <b>{{formatNumber sumLatestBalance}}</b>
+
+  tr.detail-row(style="background-color: #EFEFF4;"): td(colspan="5")

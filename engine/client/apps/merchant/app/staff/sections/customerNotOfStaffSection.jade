@@ -1,0 +1,64 @@
+template(name="customerNotOfStaffSection")
+  .segments-container.size2
+    .igrid.row.segments-column(style="padding-bottom: 180px;")
+      .igrid-header
+        table.lemon-grid
+          tr(style="height: 30px; background-color: #fff;")
+            th(style="width:30px")
+            th(style="width:auto") KHÁCH HÀNG
+
+      .igrid-content
+        table.lemon-grid
+          each customerGroups
+            each customerLists
+              tr.detail-row.customer(class="{{selectedCustomer}}")
+                td.command.icon-ok-6.hide-on-print(style="width:30px")
+                td {{name}}
+
+    .igrid.row.segments-column(style="padding-left: 10px; padding-bottom: 180px;")
+      .igrid-header
+        table.lemon-grid
+          tr(style="height: 30px; background-color: #fff;")
+            th(style="width:30px")
+            th(style="width:auto") NHÓM KHÁCH HÀNG
+
+      .igrid-content
+        table.lemon-grid
+          each customerGroups
+            tr.detail-row.customerGroup(class="{{selectedCustomerGroup}}")
+              td.command.icon-ok-6.hide-on-print(style="width:30px")
+              td {{name}}
+
+
+
+//  .section.panel.panel-default.printable-area
+//    .panel-heading
+//      .show-on-print
+//        +merchantPrintingHeader
+//        .printing-info
+//          .document-name {{name}}
+//
+//      table.lemon-grid: tr
+//        th(style="width:20px")
+//        th(style="width:250px") KHÁCH HÀNG
+//        th(style="width:100") NHÂN VIÊN
+//        th(style="width:auto") KHU VỰC
+//
+//    .panel-body.debt-details
+//      table.lemon-grid(style="cursor: pointer;")
+//        +customerOfNotStaffGroupHeader
+//        each customerGroups
+//          each customerLists
+//            tr.detail-row(class="{{selected}}")
+//              td.command.icon-ok-6.hide-on-print
+//              td {{name}}
+//              td Chưa Có
+//              td {{groupName}}
+//
+//
+//
+//template(name="customerOfNotStaffGroupHeader")
+//  tr
+//    th.hide-on-print(style="width:30px")
+//    th(style="width:250px")
+//    th(style="width:auto")

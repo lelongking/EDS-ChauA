@@ -1,0 +1,83 @@
+template(name="providerManagementImportsHistorySection")
+  .section.panel.panel-default.printable-area
+    .panel-heading
+      .show-on-print
+        +merchantPrintingHeader
+        .printing-info
+          .document-name {{name}}
+
+      table.lemon-grid: tr
+        th(style="width:auto") SẢN PHẨM
+        th.number(style="width:80px") SL
+        th(style="width:100px; text-align:center") ĐƠN VỊ
+        th.number(style="width:120px") ĐƠN GIÁ
+        th.number(style="width:175px") THÀNH TIỀN
+
+    .panel-body.debt-details
+      table.lemon-grid.safe
+        tr
+          th(style="width:auto")
+          th(style="width:80px")
+          th(style="width:100px")
+          th(style="width:120px")
+          th(style="width:182px")
+
+        if hasOldDebts
+          tr.header-row
+            td.has-commands(colspan="5")
+              | &nbsp;
+              .bill-header <b>Nợ tồn đầu kỳ</b>
+          tr(style="background-color: {{isColor}};")
+
+          each oldDebts
+            tr.paid-row.top(class="{{transactionClass}}" style="border-bottom: none;")
+              td.has-commands(style="border-left: solid 2px #d35400;")
+                .bill-header {{description}}
+                if isManager
+                  if isDelete
+                    .commands: .lemon.rounded.tiny.btn.red.deleteTransaction: span.icon-minus-4
+              td.number(colspan="2")
+              td.number(style="color: #666;")
+                if showBeforeDebtBalance
+                  span.icon-feather-1.s5 <b>{{formatNumberBeforeDebtBalance}}</b>
+              td.number(align="right"): span.s5 <b>{{formatNumber owedCash}}</b>
+
+        each allImports
+          +providerManagementImportDetails this
+
+        tr.editors(style="{{showTransaction}}")
+          td(colspan="1"): input.transaction-field(type="text" size="10"
+          name='payImportDescription' placeholder="{{transactionDescription}}")
+
+          td(colspan="3"): input.transaction-field.number(type="text" size="10"
+          name='payImportAmount' placeholder="số tiền")
+
+          td(colspan="1"): .lemon.btn.lime.icon-money.pull-right.createTransaction(
+          class="{{isNotDisabled 'allowCreateTransactionOfImport'}}") {{transactionStatus}}
+
+    .panel-footer
+      table.lemon-grid.safe
+        tr
+          th(style="width:auto")
+          th(style="width:200px")
+          th(style="width:200px")
+
+        tr
+          td
+          td Nợ đầu kỳ:
+          td.number <b>{{formatNumber beginCash}}</b> VND
+
+        tr
+          td
+          td Phát sinh trong kỳ:
+          td.number <b>{{formatNumber totalDebtCash}}</b> VND
+
+        tr
+          td
+          td Thu nợ trong kỳ:
+          td.number <b>{{formatNumber totalPaidCash}}</b> VND
+
+        tr
+          td
+          td Nợ cuối kỳ:
+          td.number <b>{{formatNumber totalCash}}</b> VND

@@ -1,0 +1,44 @@
+template(name="customerManagement")
+  #content.modern.customer-management
+    .dual-content
+      .dual-detail-wrapper
+        .dual-detail
+          .nano: .nano-content
+            //+customerManagementOverViewPrint
+            +customerManagementOverviewSection currentCustomer
+            +customerManagementSalesHistorySection currentCustomer
+
+
+      .dual-addon
+        .search-filter.icon-search-8
+          input(name='searchFilter' type="text" placeholder="tìm khách hàng...")
+          if creationMode
+            .lemon.btn.rounded.tiny.lime.icon-plus-6.create-command.createCustomerBtn
+
+        .nano
+          .nano-content(style="margin-bottom: 35px;")
+            each customerGroups
+              if hasCustomerLists
+                .list
+                  .caption-item: b {{name}}
+                  each customerLists
+                    .doc-item(class="{{activeClass 'customerManagementCurrentCustomer'}}")
+                      .avatar-wrapper
+                        .avatar-image(class="{{hasAvatar}}" style="background-image:url('{{avatarUrl}}')") {{aliasLetter firstName}}
+
+                      .doc-info
+                        .title {{name}}
+                        .sub-title {{code}}
+
+                        if totalCash
+                          .price-stamp
+                            <b>{{formatNumber totalCash}}</b>
+                            span(style="font-size: 11px;") <b>VND</b>
+
+
+  //#footer.modern
+  //  .editor-row
+  //    .editor-wrapper.dual-spacer
+  //    .editor-wrapper.right
+  //      span.s5 TỔNG NỢ:
+  //      span.s3 <b>{{formatNumber finalDebtBalance}}</b> VNĐ

@@ -1,0 +1,13 @@
+template(name="billThumbnail")
+  .thumbnails(class="{{styles}}" style="height: 50px")
+    .full-desc.price(style="top: 3px; left: 0px; font-size: 14px;") {{momentFormat accountingConfirmAt "DD/MM/YYYY"}} - {{orderCode}}
+    .full-desc(style="font-size: 15px; left: 5px; bottom: 4px;") {{getBuyerName buyer}}
+    .right.full-desc(style="font-size: 14px; top: 2px;") {{showStatus}}
+    if isManager
+      .command-container(style="bottom: 3px;")
+        if isFinish
+          .command-button.cancel-command.icon-reply-3(style="padding: 2px;")
+          .command-button.finish-command.icon-ok-6(style="padding: 2px;")
+        else
+          .command-button.animated.bounceIn.fail-command.icon-cancel-7(style="padding: 2px;")
+          .command-button.animated.bounceIn.success-command.icon-ok-6(style="padding: 2px;")

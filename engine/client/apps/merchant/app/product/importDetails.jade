@@ -1,0 +1,46 @@
+template(name="productManagementImportDetails")
+  tr.header-row
+    td.has-commands(colspan="7")
+      | &nbsp;
+      .bill-header <b>{{momentFormat version.createdAt "DD/MM/YYYY"}}</b>
+      .commands(style="left: 80px; top:0px; font-style: italic; color:#7ac5f9") <b>{{description}}</b>
+
+  each details
+    if isProduct
+      tr.detail-row
+        td.first-column.has-commands
+          if isInventory
+            | Tồn kho đầu kỳ
+          else
+            |NCC {{providerName}}
+          .commands Hết Hạn
+        td(align="center") {{momentFormat expire "DD/MM/YYYY"}}
+        td.number {{formatNumber quality}}
+        td(align="center") {{getProductUnitName productUnit}}
+        td.number {{formatNumber price}}
+        td.number {{formatNumber totalPrice}}
+
+                    //+productManagementReturnDetails returnDetails
+
+      each orderId
+        tr.detail-row
+          td.first-column.has-commands
+           span.icon-forward-3 {{getBuyerName buyer}}
+           .commands Ngày Bán
+          td(align="center") {{momentFormat createdAt "DD/MM/YYYY"}}
+          td.number {{quality}}
+          td(align="center") {{getProductUnitName productUnit}}
+          td.number {{formatNumber salePrice}}
+          td.number {{formatNumber totalPrice}}
+
+
+template(name="productManagementReturnDetails")
+  each returnDetails
+    tr.detail-row
+      td.first-column
+        span.icon-reply-3 Trả hàng NCC
+      td(align="center") {{momentFormat version.createdAt "DD/MM/YYYY"}}
+      td.number {{returnQuantity}}
+      td(align="center") {{unitName}}
+      td.number {{formatNumber unitReturnsPrice}}
+      td.number {{formatNumber returnFinalPrice}}

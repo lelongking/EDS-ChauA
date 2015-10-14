@@ -1,0 +1,18 @@
+template(name="priceBookOverviewSection")
+  .section.top.panel.panel-default
+    input.hidden.avatarFile(type="file")
+    .panel-heading
+      +avatarImageComponent(avatar=avatarUrl alias=firstName)
+      .caption: input.editable.dashed(name="priceBookName" value="{{name}}" maxlength="50")
+      .sub1: input.editable.dashed(name="priceBookDescription" value="{{description}}" maxlength="20" size="15" placeholder="ghi chú")
+      .commands
+        if showEditCommand
+          .lemon.btn.rounded.lime.icon-ok-6.syncCustomerEdit
+        if allowDelete
+          .lemon.btn.rounded.red.icon-minus-4.priceBookDelete
+
+    .panel-footer.has-details(style="height: 50px;")
+      if priceProductSelectedCount
+        .editor-wrapper(style="width: 300px")
+          span.ilabel.optional áp dụng cho:
+          +iSelect(options=priceBookSelectOptions class="field")

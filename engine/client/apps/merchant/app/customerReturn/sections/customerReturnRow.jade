@@ -1,0 +1,52 @@
+template(name="customerReturnRowEdit")
+  tr.detail-row.large-name: td(colspan="3")
+    span {{getProductName product}}
+    //if product.basicUnit
+    //  span ({{product.basicUnit}})
+    if discountPercent
+      span.super.s7.color-lime GIẢM GIÁ {{round discountPercent}}%
+
+  tr.editors.dual-border(class="{{crossReturnAvailableQuantity.errorClass}}")
+    td.bill-name.has-commands
+      |{{getProductName product}}
+      .commands
+        .lemon.rounded.tiny.btn.blue.animated.bounceIn.deleteReturnDetail: span.icon-minus-4
+
+    td.price: input.error-field(name="editPrice" min="0")
+
+    td.quality: input.error-field(name="editQuantity" min="0")
+
+    td: span
+      |{{getProductUnitName productUnit}}
+      unless showConversion
+        span.super.s7.color-lime {{basicQuantity}} {{getProductBasicName productUnit}}
+
+    td.number.note <b>{{formatNumber calculateFinalPrice}}</b>
+
+template(name="customerReturnRowDisplay")
+  tr.detail-row.large-name: td(colspan="3")
+    span {{getProductName product}}
+    //if product.basicUnit
+    //   span ({{product.basicUnit}})
+    if discountPercent
+      span.super.s7.color-lime GIẢM GIÁ {{round discountPercent}}%
+
+  tr.detail-row.click-enable(class="{{crossReturnAvailableQuantity.errorClass}}")
+    td.bill-name.has-commands
+      |{{getProductName product}}
+      .commands
+        .lemon.rounded.tiny.btn.blue.deleteReturnDetail: span.icon-minus-4
+
+    td.price.editable-field {{formatNumber price}}
+
+    td.quality.editable-field.error-field: span
+      |{{formatNumber quality}}
+      if crossReturnAvailableQuantity.invalid
+        span.super.s7.color-lime {{crossReturnAvailableQuantity.crossAvailable}}
+
+    td: span
+      |{{getProductUnitName productUnit}}
+      unless showConversion
+        span.super.s7.color-lime {{basicQuantity}} {{getProductBasicName productUnit}}
+
+    td.number.final-price <b>{{formatNumber calculateFinalPrice}}</b>
