@@ -3,6 +3,7 @@ template(name="historySynthesisDebts")
     tr
       th(style='width:auto')
       th.number(style='width:90px')
+      th(style='width:90px').show-on-print
       th.number(style='width:90px')
       th.number(style='width:90px')
       th.number(style='width:90px')
@@ -36,6 +37,7 @@ template(name="historySynthesisDebts")
 
     tr(style='font-size: 13px; font-weight: bold; height: 30px;')
       td(style='padding-left: 10px;') Tên Khách Hàng
+      th(style='width:90px').show-on-print
       td.number Nợ Phải Thu
       td.number TT.Phải Thu
       td.number Nợ Đầu Kỳ
@@ -49,13 +51,14 @@ template(name="historySynthesisDebts")
       td.number Nợ Cuối Kỳ
 
 
-  .nano: .nano-content(style="right: -3px;padding-bottom: 75px;")
+  .nano: .nano-content(style="right: -3px;padding-bottom: 80px;")
     .section.panel.panel-default.printable-area(style="margin-top: 0;")
       .panel-body(style="padding: 0px;")
         table#historyTable.lemon-grid
           tr
+            th(style="width:90px").show-on-print
             th(style="width:auto")
-            th(style="width:90px")
+            th(style='width:90px')
             th(style="width:90px")
             th(style="width:90px")
             th(style="width:90px")
@@ -67,21 +70,40 @@ template(name="historySynthesisDebts")
             th(style="width:90px")
             th(style="width:110px")
 
+          tr
+            td.show-on-print Mã Khách Hàng
+            td.number.show-on-print Tên Khách Hàng
+            td.number.show-on-print Nợ Phải Thu
+            td.number.show-on-print TT.Phải Thu
+            td.number.show-on-print Nợ Đầu Kỳ
+            td.number.show-on-print TT.Nợ ĐK
+            td.number.show-on-print PS.Cộng
+            td.number.show-on-print PS.Trừ
+            td.number.show-on-print Mua Hàng
+            td.number.show-on-print Trả Hàng
+            td.number.show-on-print D.Số Thực
+            td.number.show-on-print TT.Mua Hàng
+            td.number.show-on-print Nợ Cuối Kỳ
+
 
           with customerGroups
             if showCustomer
               if hasSearchCustomer
                 each customerLists
                   tr(style="background-color: #fff;")
-                    td.first-column(style="font-size: 13px;") {{name}}
-                    td.number
-                      input.number.debtRequiredCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
-                      value="{{formatNumber debtRequiredCash}}")
-                    td.number {{formatNumber paidRequiredCash}}
+                    td.show-on-print {{code}}
+                    td.first-column(style="font-size: 13px; padding-left: 10px;") {{name}}
 
                     td.number
-                      input.number.debtBeginCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                      input.number.debtRequiredCash.hide-on-print(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                      value="{{formatNumber debtRequiredCash}}")
+                      span.show-on-print {{formatNumber debtRequiredCash}}
+                    td.number {{formatNumber paidRequiredCash}}
+
+                    td.number.hide-on-print
+                      input.number.debtBeginCash.hide-on-print(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
                       value="{{formatNumber debtBeginCash}}")
+                      span.show-on-print {{formatNumber debtBeginCash}}
                     td.number {{formatNumber paidBeginCash}}
 
                     td.number {{formatNumber debtIncurredCash}}
@@ -97,15 +119,19 @@ template(name="historySynthesisDebts")
                 each this
                   each customerDetails
                     tr(style="background-color: #fff;")
-                      td.first-column(style="font-size: 13px;") {{name}}
-                      td.number
-                        input.number.debtRequiredCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                      td.show-on-print {{code}}
+                      td.first-column(style="font-size: 13px; padding-left: 10px;") {{name}}
+
+                      td.number.hide-on-print
+                        input.number.debtRequiredCash.hide-on-print(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
                         value="{{formatNumber debtRequiredCash}}")
+                        span.show-on-print {{formatNumber debtRequiredCash}}
                       td.number {{formatNumber paidRequiredCash}}
 
-                      td.number
-                        input.number.debtBeginCash(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
+                      td.number.hide-on-print
+                        input.number.debtBeginCash.hide-on-print(style="font-weight: bolder; color: #7ac5f9" type="text" size="10" name="{{_id}}" placeholder="số tiền"
                         value="{{formatNumber debtBeginCash}}")
+                        span.show-on-print {{formatNumber debtBeginCash}}
                       td.number {{formatNumber paidBeginCash}}
 
                       td.number {{formatNumber debtIncurredCash}}
@@ -133,7 +159,8 @@ template(name="historySynthesisDebts")
 
 
 template(name="basicHistorySumGroupCash")
-  td(style="font-size: 13px;") <b>{{name}} : </b>
+  td.show-on-print {{code}}
+  td(style="font-size: 13px; padding-left: 10px;") <b>{{name}} : </b>
   td.number <b>{{formatNumber  debtRequiredCash}}</b>
   td.number <b>{{formatNumber  paidRequiredCash}}</b>
 
@@ -152,7 +179,8 @@ template(name="basicHistorySumGroupCash")
 
 template(name="basicHistorySumAllCash")
   tr
-    td(style="font-size: 13px;")  <b>Tổng Cộng :</b>
+    td.show-on-print
+    td(style="font-size: 13px; padding-left: 10px;")  <b>Tổng Cộng :</b>
     td.number.border-top <b>{{formatNumber sumDebtRequiredCash}}</b>
     td.number.border-top <b>{{formatNumber sumPaidRequiredCash}}</b>
 
@@ -165,6 +193,6 @@ template(name="basicHistorySumAllCash")
     td.number.border-top <b>{{formatNumber sumDebtSaleCash}}</b>
     td.number.border-top <b>{{formatNumber sumReturnSaleCash}}</b>
 
-    td.number.border-top <b>{{formatNumber sumTurnoverCash}}</b>
+    td.number.border-top <b>{{formatNumber sumTurnoverSaleCash}}</b>
     td.number.border-top <b>{{formatNumber sumPaidSaleCash}}</b>
     td.number.border-top <b>{{formatNumber sumTotalCash}}</b>

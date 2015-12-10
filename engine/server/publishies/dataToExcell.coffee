@@ -69,7 +69,7 @@ app.get '/download/customer/:id', (req, res) ->
       worksheet.getRow(12).font = { name: "Times New Roman", family: 2, size: 12, bold: true }
 
 
-      worksheet.getCell('B6').value = 'Kính gởi Khách hàng: ' + customer.name
+      worksheet.getCell('B6').value = 'Kính gởi Khách hàng: ' + (customer.name ? '')
       worksheet.getCell('B6').alignment = { vertical: "middle", horizontal: "left" }
       worksheet.getCell('H6').value = 'Địa chỉ: ' + (customer.profiles.address ? '')
       worksheet.getCell('H6').alignment = { vertical: "middle", horizontal: "left" }
@@ -115,9 +115,9 @@ app.get '/download/customer/:id', (req, res) ->
       values = [
         "VNĐ"
         (customer.debtRequiredCash ? 0) + (customer.debtBeginCash ? 0)
-        customer.debtSaleCash + customer.debtIncurredCash
-        customer.paidSaleCash + customer.paidIncurredCash
-        customer.returnSaleCash
+        (customer.debtSaleCash ? 0) + (customer.debtIncurredCash ? 0)
+        (customer.paidRequiredCash ? 0) + (customer.paidBeginCash ? 0) + (customer.paidSaleCash ? 0) + (customer.paidIncurredCash ? 0)
+        (customer.returnSaleCash ? 0)
         customer.calculateTotalCash()
       ]
 
@@ -211,17 +211,17 @@ app.get '/download/order/:id', (req, res) ->
       worksheet.getCell('A7').alignment = { vertical: "middle", horizontal: "center" }
       worksheet.getCell('A7').font      = { name: "Times New Roman", family: 2, size: 12, bold: false }
 
-      worksheet.getCell('B8').value = 'Người nhận hàng: ' + customer?.name
+      worksheet.getCell('B8').value = 'Người nhận hàng: ' + (customer?.name ? '')
       worksheet.getCell('B8').font  = { name: "Times New Roman", family: 2, size: 12, bold: true }
       worksheet.getCell('B8').alignment = { vertical: "middle", horizontal: "left" }
 
-      worksheet.getCell('B9').value = 'Địa chỉ: ' + customer?.profiles?.address
+      worksheet.getCell('B9').value = 'Địa chỉ: ' + (customer?.profiles?.address ? '')
       worksheet.getCell('B9').alignment = { vertical: "middle", horizontal: "left" }
 
       worksheet.getCell('G9').value = 'Lý do xuất: Xuất bán'
       worksheet.getCell('G9').alignment = { vertical: "middle", horizontal: "left" }
 
-      worksheet.getCell('B10').value = 'Điện thoại: ' + customer?.profiles?.phone
+      worksheet.getCell('B10').value = 'Điện thoại: ' + (customer?.profiles?.phone ? '')
       worksheet.getCell('B10').alignment = { vertical: "middle", horizontal: "left" }
 
       worksheet.getCell('G10').value = 'Vận chuyển:'
@@ -247,7 +247,7 @@ app.get '/download/order/:id', (req, res) ->
       worksheet.mergeCells('A'+beginRowData+':H'+beginRowData)
       beginRowData += 1
 
-      worksheet.getCell('B'+beginRowData).value = 'Địa chỉ chành:' + customer.deliveryAdd
+      worksheet.getCell('B'+beginRowData).value = 'Địa chỉ chành:' + (customer.deliveryAdd ? '')
       worksheet.getCell('B'+beginRowData).alignment = { vertical: "middle", horizontal: "left" }
       beginRowData +=1
 
@@ -283,7 +283,7 @@ app.get '/download/order/:id', (req, res) ->
       worksheet.getCell('E'+beginRowData).alignment = { vertical: "middle", horizontal: "center" }
       worksheet.mergeCells('E'+beginRowData+':F'+beginRowData)
 
-      worksheet.getCell('G'+beginRowData).value = 'NGUYỄN HỮU HOÀNG'
+      worksheet.getCell('G'+beginRowData).value = 'NG. HỮU HOÀNG'
       worksheet.getCell('G'+beginRowData).alignment = { vertical: "middle", horizontal: "center" }
 
       worksheet.getCell('H'+beginRowData).value = 'PHAN THỊ ĐỊNH'

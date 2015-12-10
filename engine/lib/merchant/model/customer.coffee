@@ -86,7 +86,7 @@ Schema.add 'customers', "Customer", class Customer
         (@debtSaleCash ? 0) - (@paidSaleCash ? 0) - (@returnSaleCash ? 0)
 
     doc.remove = ->
-      if @allowDelete and Schema.customers.remove(@_id)
+      if @allowDelete and checkAllowDelete(@) and Schema.customers.remove(@_id)
         randomGetCustomerId = Schema.customers.findOne()?._id ? ''
         Meteor.users.update(Meteor.userId(), {$set: {'sessions.currentCustomer': randomGetCustomerId}})
 
@@ -94,7 +94,8 @@ Schema.add 'customers', "Customer", class Customer
         if @group
           totalCash = @debtCash + @loanCash
           Schema.customerGroups.update(@group, {$pull: {customers: @_id }, $inc:{totalCash: -totalCash}})
-
+      else
+        Schema.customers.update(@_id, $set:{allowDelete: false})
 
     doc.calculateBalance = ->
       customerUpdate = {paidCash: 0, returnCash: 0, totalCash: 0, loanCash: 0, beginCash: 0, debtCash: 0}
@@ -189,3 +190,26 @@ Schema.add 'customers', "Customer", class Customer
       )
       if Schema.customerGroups.update(defaultGroup._id, $set:{customers: []})
         Schema.customerGroups.update(defaultGroup._id, $set:{customers: listCustomerIds})
+
+  @checkAllowDelete: ->
+    Schema.customers.find().forEach(
+      (customer) -> Schema.customers.update(customer._id, $set:{allowDelete: checkAllowDelete(customer)})
+    )
+
+checkAllowDelete = (customer)->
+  findOrder = Schema.orders.findOne({buyer: customer._id})
+  findTransaction = Schema.transactions.findOne({owner: customer._id})
+  checkBeginCash =
+    if customer.debtRequiredCash isnt 0 or
+      customer.paidRequiredCash isnt 0 or
+      customer.debtBeginCash isnt 0 or
+      customer.paidBeginCash isnt 0 or
+      customer.debtIncurredCash isnt 0 or
+      customer.paidIncurredCash isnt 0 or
+      customer.debtSaleCash isnt 0 or
+      customer.paidSaleCash isnt 0 or
+      customer.returnSaleCash isnt 0
+         true
+    else
+      false
+  if findOrder or findTransaction or checkBeginCash then false else true

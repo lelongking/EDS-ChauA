@@ -1,10 +1,14 @@
+reloadBrowser = ->
+  if window then window.location.reload() else location.reload()
+  console.log 'reload browser'
+
 Meteor.startup ->
   moment.locale('vi')
   Router.configure
     progressDebug: false
 
   Meteor.call('trackingProduct')
-
+#  Meteor.setInterval(reloadBrowser, 120*1000)
   Tracker.autorun ->
 
     if Meteor.userId() and !Meteor.status()?.connected

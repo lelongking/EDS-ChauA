@@ -34,7 +34,7 @@ lemon.defineApp Template.historySynthesisDebts,
         sumDebtSaleCash     : 0
         sumReturnSaleCash   : 0
 
-        sumTurnoverCash     : 0
+        sumTurnoverSaleCash : 0
         sumPaidSaleCash     : 0
         sumTotalCash        : 0
 
@@ -96,6 +96,9 @@ lemon.defineApp Template.historySynthesisDebts,
                 customer
             )
 
+          cash = customerGroup.debtBeginCash
+#          console.log 'group', scope.sumCash.sumDebtBeginCash, customerGroup.debtBeginCash
+
           scope.sumCash.sumDebtRequiredCash += customerGroup.debtRequiredCash
           scope.sumCash.sumPaidRequiredCash += customerGroup.paidRequiredCash
           scope.sumCash.sumDebtBeginCash    += customerGroup.debtBeginCash
@@ -120,6 +123,11 @@ lemon.defineApp Template.historySynthesisDebts,
           customerGroup.sumTurnoverSaleCash = scope.sumCash.sumTurnoverSaleCash
           customerGroup.sumPaidSaleCash     = scope.sumCash.sumPaidSaleCash
           customerGroup.sumTotalCash        = scope.sumCash.sumTotalCash
+
+          if cash
+#            console.log customerGroup.name, scope.sumCash.sumDebtBeginCash , scope.sumCash.sumDebtBeginCash - customerGroup.debtBeginCash
+            console.log customerGroup.name, scope.sumCash.sumTurnoverSaleCash
+
           customerGroup
       )
 
@@ -146,7 +154,7 @@ lemon.defineApp Template.historySynthesisDebts,
       Helpers.deferredAction ->
         if customer
           debtRequiredCash = $("[name=#{customer._id}].debtRequiredCash").val()
-          debtRequiredCash = Math.abs(accounting.unformat(debtRequiredCash))
+          debtRequiredCash = accounting.unformat(debtRequiredCash)
           Schema.customers.update(customer._id, {$set:{debtRequiredCash: debtRequiredCash}})
       , "basicHistoryChangeDebtRequiredCash"
       , 500
@@ -156,7 +164,7 @@ lemon.defineApp Template.historySynthesisDebts,
       Helpers.deferredAction ->
         if customer
           debtBeginCash = $("[name=#{customer._id}].debtBeginCash").val()
-          debtBeginCash = Math.abs(accounting.unformat(debtBeginCash))
+          debtBeginCash = accounting.unformat(debtBeginCash)
           Schema.customers.update(customer?._id, {$set:{debtBeginCash: debtBeginCash}})
       , "basicHistoryChangeDebtBeginCash"
       , 500
